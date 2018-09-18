@@ -2,7 +2,7 @@
   "name": "microcan-fp",
   "version": "0.0.1",
   "description": "A Functional (micro) Canvas Library",
-  "main": "dist/micrcan.js",
+  "main": "dist/microcan.js",
   "scripts": {
     "build": "rollup src/microcan.js --file dist/microcan.js --format umd --name \"microcan\""
   },
