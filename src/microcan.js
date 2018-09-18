@@ -55,6 +55,14 @@ function microcan(canvasCtx, [w, h]) {
     fill([0, 0, 0, 0]);
   }
 
+  function dash(widthSpacingVector) {
+    ctx.setLineDash(widthSpacingVector);
+  }
+
+  function noDash() {
+    ctx.setLineDash([]);
+  }
+
   function background([r, g, b, a]) {
     const oldColor = ctx.fillStyle;
     ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`
@@ -218,6 +226,8 @@ function microcan(canvasCtx, [w, h]) {
     stroke,
     noStroke,
     noFill,
+    dash,
+    noDash,
     background,
     strokeWeight,
     polygon,
@@ -243,4 +253,4 @@ function microcan(canvasCtx, [w, h]) {
   };
 }
 
-export {microcan};
+export default microcan;
