@@ -1,6 +1,6 @@
 {
   "name": "microcan-fp",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A Functional (micro) Canvas Library",
   "main": "dist/microcan.js",
   "scripts": {
