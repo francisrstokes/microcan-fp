@@ -41,6 +41,7 @@ function microcan(canvasCtx, [w, h]) {
       strokeColor,
       fillColor,
       dashVector,
+      strokeWeight: ctx.lineWidth
     });
   }
 
@@ -54,6 +55,7 @@ function microcan(canvasCtx, [w, h]) {
     strokeColor = out.strokeColor;
     fillColor = out.fillColor;
     dashVector = out.dashVector;
+    ctx.lineWidth = out.strokeWeight;
   }
 
   // State functions
@@ -88,26 +90,32 @@ function microcan(canvasCtx, [w, h]) {
   // Drawing modifier functions
   function fill([r, g, b, a]) {
     ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
+    fillColor = [r, g, b, a];
   }
 
   function stroke([r, g, b, a]) {
     ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
+    strokeColor = [r, g, b, a];
   }
 
   function noStroke() {
     stroke(TRANSPARENT);
+    strokeColor = TRANSPARENT;
   }
 
   function noFill() {
     fill(TRANSPARENT);
+    fillColor = TRANSPARENT;
   }
 
   function dash(widthSpacingVector) {
     ctx.setLineDash(widthSpacingVector);
+    dashVector = widthSpacingVector;
   }
 
   function noDash() {
     ctx.setLineDash([]);
+    dashVector = [];
   }
 
   function background([r, g, b, a]) {
