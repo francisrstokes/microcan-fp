@@ -19,12 +19,42 @@ const curry = (fn, toStringMessage) => {
 const compose = (...fns) => fns.reduce((f, g) => (...args) => f(g(...args)));
 const TAU = Math.PI * 2;
 
+const TRANSPARENT = [0,0,0,0];
+
 function microcan(canvasCtx, [w, h]) {
   let width = w;
   let height = h;
   let ctx = canvasCtx;
+
+  const stack = [];
+  let textSize = 14;
+  let strokeColor = [0,0,0,1];
+  let fillColor = [0,0,0,1];
+  let dashVector = [];
+
   ctx.canvas.width = w;
   ctx.canvas.height = h;
+
+  function push() {
+    stack.push({
+      textSize,
+      strokeColor,
+      fillColor,
+      dashVector,
+    });
+  }
+
+  function pop() {
+    const out = stack.pop();
+    if (!out) {
+      throw new Error('No stack to pop');
+    }
+
+    textSize = textSize;
+    strokeColor = strokeColor;
+    fillColor = fillColor;
+    dashVector = dashVector;
+  }
 
   // State functions
   function setWidthHeight([w, h]) {
@@ -38,6 +68,23 @@ function microcan(canvasCtx, [w, h]) {
     ctx = canvasCtx;
   }
 
+
+  function text(text, pos) {
+    ctx.fillText(text, ...pos);
+    ctx.strokeText(text, ...pos);
+  }
+
+  function centeredText(text, pos) {
+    const size = ctx.measureText(text);
+    ctx.fillText(text, pos[0] - size.width / 2, pos[1] + textSize / 4);
+    ctx.strokeText(text, pos[0] - size.width / 2, pos[1] + textSize / 4);
+  }
+
+  function setFont(size, font, modifier) {
+    ctx.font = `${modifier ? modifier + ' ' : ''}${size}px ${font}`;
+    mc.textSize = size;
+  }
+
   // Drawing modifier functions
   function fill([r, g, b, a]) {
     ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
@@ -48,11 +95,11 @@ function microcan(canvasCtx, [w, h]) {
   }
 
   function noStroke() {
-    stroke([0, 0, 0, 0]);
+    stroke(TRANSPARENT);
   }
 
   function noFill() {
-    fill([0, 0, 0, 0]);
+    fill(TRANSPARENT);
   }
 
   function dash(widthSpacingVector) {
@@ -250,6 +297,16 @@ function microcan(canvasCtx, [w, h]) {
     mapRotation,
     mapAngle,
     mapRadius,
+
+    text,
+    centeredText,
+    setFont,
+    textSize,
+    strokeColor,
+    fillColor,
+    dashVector,
+    push,
+    pop,
   };
 }
 
