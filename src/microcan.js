@@ -50,10 +50,10 @@ function microcan(canvasCtx, [w, h]) {
       throw new Error('No stack to pop');
     }
 
-    textSize = textSize;
-    strokeColor = strokeColor;
-    fillColor = fillColor;
-    dashVector = dashVector;
+    textSize = out.textSize;
+    strokeColor = out.strokeColor;
+    fillColor = out.fillColor;
+    dashVector = out.dashVector;
   }
 
   // State functions
