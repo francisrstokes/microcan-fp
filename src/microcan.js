@@ -27,7 +27,7 @@ function microcan(canvasCtx, [w, h]) {
   let ctx = canvasCtx;
 
   const stack = [];
-  let textSize = 14;
+  let font = {size:14, font: 'Arial', modifier: ''};
   let strokeColor = [0,0,0,1];
   let fillColor = [0,0,0,1];
   let dashVector = [];
@@ -37,7 +37,7 @@ function microcan(canvasCtx, [w, h]) {
 
   function push() {
     stack.push({
-      textSize,
+      font,
       strokeColor,
       fillColor,
       dashVector,
@@ -51,11 +51,11 @@ function microcan(canvasCtx, [w, h]) {
       throw new Error('No stack to pop');
     }
 
-    textSize = out.textSize;
-    strokeColor = out.strokeColor;
-    fillColor = out.fillColor;
-    dashVector = out.dashVector;
-    ctx.lineWidth = out.strokeWeight;
+    setFont(out.font.size, out.font.font, out.font.modifier);
+    stroke(out.strokeColor);
+    fill(out.fillColor);
+    setLineDash(out.dashVector);
+    strokeWeight(out.strokeWeight);
   }
 
   // State functions
@@ -82,9 +82,12 @@ function microcan(canvasCtx, [w, h]) {
     ctx.strokeText(text, pos[0] - size.width / 2, pos[1] + textSize / 4);
   }
 
-  function setFont(size, font, modifier) {
+  function setFont(size, _font, modifier) {
     ctx.font = `${modifier ? modifier + ' ' : ''}${size}px ${font}`;
-    textSize = size;
+
+    font.font = font;
+    font.modifier = modifier;
+    font.size = size;
   }
 
   // Drawing modifier functions
