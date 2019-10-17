@@ -82,7 +82,7 @@ function microcan(canvasCtx, [w, h]) {
 
   function setFont(size, font, modifier) {
     ctx.font = `${modifier ? modifier + ' ' : ''}${size}px ${font}`;
-    mc.textSize = size;
+    textSize = size;
   }
 
   // Drawing modifier functions
